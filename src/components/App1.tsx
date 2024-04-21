@@ -1,83 +1,19 @@
-import GitCommitGraph from "./GitCommitGraph";
-import { GitCommit } from "../models/models";
-
-const commits: GitCommit[] = [
-	{
-		refs: ["feature1"],
-		sha: "002",
-		author: "Author 2",
-		date: 12346,
-		message: "Add feature 1",
-		parents: [],
-	},
-	{
-		refs: ["master"],
-		sha: "001",
-		author: "Author 1",
-		date: 12345,
-		message: "Initial commit",
-		parents: [
-			{
-				refs: ["feature1"],
-				sha: "002",
-				author: "Author 2",
-				date: 12346,
-				message: "Add feature 1",
-				parents: [],
-			},
-		],
-	},
-	{
-		refs: ["feature2"],
-		sha: "003",
-		author: "Author 3",
-		date: 12347,
-		message: "Add feature 2",
-		parents: [],
-	},
-	{
-		refs: ["master"],
-		sha: "004",
-		author: "Author 4",
-		date: 12348,
-		message: "Merge feature2 to master",
-		parents: [
-			{
-				refs: ["feature2"],
-				sha: "003",
-				author: "Author 3",
-				date: 12347,
-				message: "Add feature 2",
-				parents: [],
-			},
-			{
-				refs: ["feature1"],
-				sha: "002",
-				author: "Author 2",
-				date: 12346,
-				message: "Add feature 1",
-				parents: [],
-			},
-		],
-	},
-	{
-		refs: ["hotfix"],
-		sha: "005",
-		author: "Author 5",
-		date: 12349,
-		message: "Hotfix for critical issue",
-		parents: [],
-	},
-];
+import React, { useState } from "react";
+import GitHubCommits from "./GitHubCommits";
 
 const App1 = () => {
-	return (
-		<div>
-			<GitCommitGraph commits={commits} />
-		</div>
-	);
+    const [selectedBranch, setSelectedBranch] = useState("main");
+
+    const handleBranchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedBranch(event.target.value);
+    };
+
+    return (
+        <div style={{ position: "fixed", top: 0, width: "100%", background: "white", padding: "10px", zIndex: 100 }}>
+            <input type="text" value={selectedBranch} onChange={handleBranchChange} />
+            <GitHubCommits owner="DanilKazanov" repo="test-file-gx" branch={selectedBranch} />
+        </div>
+    );
 };
 
 export default App1;
-
-
